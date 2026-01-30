@@ -1,0 +1,256 @@
+═══════════════════════════════════════════════════════════════
+  WEB PLAY STORE - INSTALLATION GUIDE
+═══════════════════════════════════════════════════════════════
+
+📦 QUICK START GUIDE
+
+Follow these steps to get your Web Play Store running:
+
+═══════════════════════════════════════════════════════════════
+STEP 1: PREPARE YOUR ENVIRONMENT
+═══════════════════════════════════════════════════════════════
+
+Requirements:
+✓ XAMPP, WAMP, or LAMP installed
+✓ PHP 7.0 or higher
+✓ MySQL 5.6 or higher
+✓ Apache Web Server
+
+═══════════════════════════════════════════════════════════════
+STEP 2: EXTRACT FILES
+═══════════════════════════════════════════════════════════════
+
+1. Locate your web server directory:
+   
+   XAMPP (Windows):  C:\xampp\htdocs\
+   WAMP (Windows):   C:\wamp\www\
+   LAMP (Linux):     /var/www/html/
+
+2. Extract 'web-playstore' folder to this directory
+
+Your path should look like:
+   C:\xampp\htdocs\web-playstore\
+
+═══════════════════════════════════════════════════════════════
+STEP 3: CREATE DATABASE
+═══════════════════════════════════════════════════════════════
+
+METHOD 1 - Using phpMyAdmin (Recommended):
+1. Start Apache and MySQL in XAMPP Control Panel
+2. Open browser: http://localhost/phpmyadmin
+3. Click "New" button (left sidebar)
+4. Database name: web_playstore
+5. Collation: utf8mb4_unicode_ci
+6. Click "Create"
+7. Click "Import" tab at the top
+8. Click "Choose File"
+9. Select: database.sql (from web-playstore folder)
+10. Click "Go" at the bottom
+11. Wait for "Import has been successfully finished"
+
+METHOD 2 - Using SQL Query:
+1. Open phpMyAdmin
+2. Click "SQL" tab
+3. Open database.sql file in a text editor
+4. Copy ALL the SQL code
+5. Paste into the SQL box
+6. Click "Go"
+
+═══════════════════════════════════════════════════════════════
+STEP 4: VERIFY DATABASE CONNECTION
+═══════════════════════════════════════════════════════════════
+
+The default settings should work for XAMPP:
+
+File: includes/db.php
+
+DB_HOST = localhost
+DB_USER = root
+DB_PASS = (empty)
+DB_NAME = web_playstore
+
+If your MySQL has a password, edit includes/db.php
+
+═══════════════════════════════════════════════════════════════
+STEP 5: SET FOLDER PERMISSIONS
+═══════════════════════════════════════════════════════════════
+
+Make uploads folder writable:
+
+WINDOWS:
+1. Right-click: uploads/apps/ folder
+2. Properties → Security
+3. Edit → Add → Everyone
+4. Check "Full Control"
+5. Apply → OK
+
+LINUX:
+sudo chmod -R 755 uploads/apps/
+sudo chown -R www-data:www-data uploads/
+
+═══════════════════════════════════════════════════════════════
+STEP 6: ACCESS YOUR WEB PLAY STORE
+═══════════════════════════════════════════════════════════════
+
+Open your browser and visit:
+
+FRONTEND (User Side):
+🌐 http://localhost/web-playstore/
+
+ADMIN PANEL:
+🔐 http://localhost/web-playstore/admin/login.php
+
+═══════════════════════════════════════════════════════════════
+STEP 7: LOGIN TO ADMIN PANEL
+═══════════════════════════════════════════════════════════════
+
+Default Admin Credentials:
+Email:    admin@webplaystore.com
+Password: admin123
+
+⚠️ IMPORTANT: Change this password after first login!
+
+═══════════════════════════════════════════════════════════════
+STEP 8: ADD YOUR FIRST APP
+═══════════════════════════════════════════════════════════════
+
+1. Login to admin panel
+2. Click "Add New App" in sidebar
+3. Fill in the form:
+   - App Name: Your App Name
+   - Version: 1.0.0
+   - Category: Choose one
+   - Description: Describe your app
+   - Upload Icon (JPG/PNG/GIF - Max 5MB)
+   - Upload App File (ZIP/RAR/APK/EXE/DMG - Max 100MB)
+4. Click "Add App"
+
+═══════════════════════════════════════════════════════════════
+TROUBLESHOOTING
+═══════════════════════════════════════════════════════════════
+
+❌ PROBLEM: "Connection failed" error
+
+✅ SOLUTION:
+   - Start MySQL in XAMPP Control Panel
+   - Check database name is 'web_playstore'
+   - Verify credentials in includes/db.php
+
+---
+
+❌ PROBLEM: "Failed to upload" error
+
+✅ SOLUTION:
+   - Check uploads/apps/ folder exists
+   - Verify folder is writable (permissions)
+   - Edit php.ini:
+     upload_max_filesize = 100M
+     post_max_size = 100M
+   - Restart Apache
+
+---
+
+❌ PROBLEM: Admin login doesn't work
+
+✅ SOLUTION:
+   - Verify database import was successful
+   - Check 'users' table has data
+   - Clear browser cache
+   - Try different browser
+
+---
+
+❌ PROBLEM: Images not showing
+
+✅ SOLUTION:
+   - Check file paths are correct
+   - Verify images are in uploads/apps/
+   - Check file permissions
+   - Clear browser cache
+
+═══════════════════════════════════════════════════════════════
+CONFIGURATION TIPS
+═══════════════════════════════════════════════════════════════
+
+Increase Upload Limits:
+
+1. Find php.ini file:
+   XAMPP: C:\xampp\php\php.ini
+
+2. Edit these lines:
+   upload_max_filesize = 100M
+   post_max_size = 100M
+   max_execution_time = 300
+   memory_limit = 256M
+
+3. Save file
+4. Restart Apache
+
+═══════════════════════════════════════════════════════════════
+SECURITY RECOMMENDATIONS
+═══════════════════════════════════════════════════════════════
+
+Before going live (production):
+
+1. Change admin password
+2. Delete database.sql from server
+3. Edit .htaccess: disable display_errors
+4. Use strong database password
+5. Enable HTTPS/SSL
+6. Regular backups
+7. Keep PHP/MySQL updated
+
+═══════════════════════════════════════════════════════════════
+FOLDER STRUCTURE OVERVIEW
+═══════════════════════════════════════════════════════════════
+
+web-playstore/
+│
+├── admin/              ← Admin panel files
+│   ├── assets/         ← Admin CSS/JS
+│   └── *.php          ← Admin pages
+│
+├── assets/            ← Frontend assets
+│   ├── css/          ← Stylesheets
+│   ├── js/           ← JavaScript
+│   └── images/       ← Images
+│
+├── includes/          ← PHP includes
+│   ├── db.php        ← Database connection
+│   ├── auth.php      ← Authentication
+│   └── functions.php ← Helper functions
+│
+├── uploads/          ← Uploaded files
+│   └── apps/        ← App icons & files
+│
+├── *.php            ← Frontend pages
+├── database.sql     ← Database structure
+└── README.md        ← Documentation
+
+═══════════════════════════════════════════════════════════════
+NEXT STEPS
+═══════════════════════════════════════════════════════════════
+
+1. ✅ Complete installation
+2. ✅ Login to admin panel
+3. ✅ Add categories (optional)
+4. ✅ Upload your first app
+5. ✅ Test frontend interface
+6. ✅ Customize design (optional)
+7. ✅ Add more apps
+8. ✅ Share with users!
+
+═══════════════════════════════════════════════════════════════
+SUPPORT
+═══════════════════════════════════════════════════════════════
+
+📖 Read README.md for detailed documentation
+🐛 Check Apache/PHP error logs for issues
+💻 View browser console for JavaScript errors
+📧 Check all requirements are met
+
+═══════════════════════════════════════════════════════════════
+
+🎉 Congratulations! Your Web Play Store is ready!
+
+═══════════════════════════════════════════════════════════════
